@@ -2,14 +2,15 @@
 const mongoose = require('mongoose');
 
 // Create a new instance of the Mongoose schema to define shape of each document
+
 const userSchema = new mongoose.Schema({
   // Add individual properties and their types
   username: { type: String, unique: true, required: true, trimmed: true },
-  email: { type: String, required: true, unique: true, validate: [validateEmail], match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/]},
+  email: { type: String, required: true, unique: true, match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/, "Email invalid. Please try again."]},
     // https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax
 
-  thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
-  friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  //thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
+ // friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   {
     toJSON: { virtuals: true,}, id: false,
