@@ -11,7 +11,14 @@ const userSchema = new mongoose.Schema({
   thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
   friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
+  {
+    toJSON: { virtuals: true,}, id: false,
+  }
 );
+// Create a virtual property 'friendCount' that retrieves the length of the friends array field on query (act.21)
+userSchema.virtual('friendCount').get(function () {
+    return this.friends.length;
+  });
 // 'User' is the name of the model
 // userSchema is the name of the schema we are using to create a new instance of the model
 const User = mongoose.model('User', userSchema);
