@@ -11,8 +11,6 @@ const userSchema = new mongoose.Schema({
   // Use built in date method to get current date
   lastAccessed, { type: Date, default: Date.now },
 );
-
-// Using mongoose.model() to compile a model based on the schema
 // 'User' is the name of the model
 // userSchema is the name of the schema we are using to create a new instance of the model
 const User = mongoose.model('User', userSchema);
