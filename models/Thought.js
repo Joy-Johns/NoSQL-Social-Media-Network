@@ -1,24 +1,39 @@
-// const mongoose = require('mongoose');
 
-// const thoughtSchema = new mongoose.Schema({
- 
-//   thoughtText: { type: String, required: true, maxlength: 280 },
-//  // createAt: { type: Date, default: Date.now, getter: true, validate: [validateEmail], match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/]},
-//     // https://stackoverflow.com/questions/70724966/how-to-use-getter-or-setter-with-mongoose-timestamps
 
-//   thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
-//   friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-//   },
-//   {
-//     toJSON: { virtuals: true,}, id: false,
-//   }
-// );
-// // Create a virtual property 'friendCount' that retrieves the length of the friends array field on query (act.21)
-// userSchema.virtual('friendCount').get(function () {
-//     return this.friends.length;
-//   });
-// // 'User' is the name of the model
-// // userSchema is the name of the schema we are using to create a new instance of the model
-// const User = mongoose.model('User', userSchema);
+const {Schema, model, Types} = require("mongoose");
+const date = require('moment');
 
-// module.exports = User;
+
+// `thoughtText`,`createdAt`,`username`,`reactions`
+const thoughtSchema = new Schema(
+    {
+      thoughtText: {
+        type: String,
+        required: true,
+        maxlength: 280,
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (createdAtVal) =>  date(createdAtVal).format('MMM DD, YYYY [at] hh:mm a'),
+      },
+      username: {
+        type: String,
+        required: true,
+      },
+      reactions: [reactionSchema],
+    },
+    {
+      toJSON: {
+        virtuals: true,
+        getters: true,
+      },
+      id: false,
+    }
+  );
+
+
+  
+  const Thought = model("Thought", thoughtSchema);
+  
+  module.exports = Thought;
