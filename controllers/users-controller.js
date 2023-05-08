@@ -31,6 +31,24 @@ const userController = {
         }).catch((err) => res.status(500).json(err));
 
 
+    },
+
+    // add a new Friend
+    addFriend(req, res) {
+        console.log("addFriend got call from user controller")
+        console.log(req.body);
+        User.findOneAndUpdate({
+            _id: req.params.id
+        }, {
+            $addToSet: {
+                friends: req.params.friendsId
+            }
+        }, {
+            runValidators: true,
+            new: true
+        })
+        .then((user) => !user ? res.status(404).json({ message: 'No friend with id ' + req.params.friendsId + ' does not exist' }) : res.json(user))
+        .catch((err) => res.status(500).json(err));
     }
 
 
