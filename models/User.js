@@ -5,12 +5,11 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   // Add individual properties and their types
-  username: { type: String, unique: true, required: true, trimmed: true },
-  email: { type: String, required: true, unique: true, match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/, "Email invalid. Please try again."]},
-    // https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax
+  username: { type: String, unique: true, required: true, trim: true },
+  email: { type: String, required: true, unique: true, match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Email invalid. Please try again."]},
 
-  //thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
- // friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  thoughts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Thought' }],
+  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   },
   {
     toJSON: { virtuals: true,}, id: false,
